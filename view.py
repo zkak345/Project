@@ -83,7 +83,7 @@ class Ui_MainWindow(object):
         self.vol_amountbar.setObjectName("vol_amountbar")
         self.textEdit = QtWidgets.QTextEdit(parent=self.centralwidget)
         self.textEdit.setGeometry(QtCore.QRect(100, 90, 411, 211))
-        self.textEdit.setObjectName("textEdit")
+        self.textEdit.setObjectName("channel_view")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
