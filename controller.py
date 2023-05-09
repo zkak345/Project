@@ -5,9 +5,11 @@ QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 class Controller(QMainWindow, Ui_MainWindow):
     MIN_VOLUME = 0
-    MAX_VOLUME = 2
+    MAX_VOLUME = 100
     MIN_CHANNEL = 0
-    MAX_CHANNEL = 3
+    MAX_CHANNEL = 4
+    Nonmuted = 0
+    Channels = {0: 'National Geographic', 1: 'Cartoon Network', 2: 'HBO', 3: 'ESPN'}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,72 +28,58 @@ class Controller(QMainWindow, Ui_MainWindow):
     def power(self):
         self.__status = not self.__status
         if self.__status:
-            self.status_text.setText('On')
+            channel = self.__channel
+            self.textEdit.setText(Controller.Channels[channel])
         else:
-            self.status_text.setText('Off')
-            self.volume_text.setText('')
-            self.mute_text.setText('')
-            self.channel_text.setText('')
+            self.textEdit.setText('')
     def mute(self):
         if self.__status:
             self.__muted = not self.__muted
             if self.__muted:
-                self.mute_text.setText('Muted')
-                self.volume_text.setText('0')
-            else:
-                self.mute_text.setText('Not Muted')
+                Controller.Nonmuted = self.vol_amountbar.value()
+                self.vol_amountbar.setValue(0)
 
     def channel_up(self):
         if self.__status:
-            if self.__channel == Controller.MAX_CHANNEL:
-                self.__channel = Controller.MIN_CHANNEL
+            if self.__channel == 3:
+                self.__channel = 0
+                channel = self.__channel
+                self.textEdit.setText(Controller.Channels[channel])
             else:
                 self.__channel += 1
-                channel = str(self.__channel)
-                self.channel_text.setText(channel)
+                channel = self.__channel
+                self.textEdit.setText(Controller.Channels[channel])
 
     def channel_down(self):
         if self.__status:
             if self.__channel == Controller.MIN_CHANNEL:
-                self.__channel = Controller.MAX_CHANNEL
+                self.__channel = 3
+                channel = self.__channel
+                self.textEdit.setText(Controller.Channels[channel])
             else:
                 self.__channel -= 1
-                channel = str(self.__channel)
-                self.channel_text.setText(channel)
+                channel = self.__channel
+                self.textEdit.setText(Controller.Channels[channel])
 
     def volume_up(self):
         if self.__status:
             if self.__muted:
                 self.__muted = not self.__muted
-            if self.__volume < Controller.MAX_VOLUME:
-                self.__volume += 1
-                volume = str(self.__volume)
-                self.volume_text.setText(volume)
+                self.vol_amountbar.setValue(Controller.Nonmuted)
+            value = self.vol_amountbar.value()
+            if value < Controller.MAX_VOLUME:
+                self.vol_amountbar.setValue(value + 1)
 
     def volume_down(self):
         if self.__status:
             if self.__muted:
                 self.__muted = not self.__muted
-            if self.__volume > Controller.MIN_VOLUME:
-                self.__volume -= 1
-                volume = str(self.__volume)
-                self.volume_text.setText(volume)
+                self.vol_amountbar.setValue(Controller.Nonmuted)
+            value = self.vol_amountbar.value()
+            if value > Controller.MIN_VOLUME:
+                self.vol_amountbar.setValue(value - 1)
 
-    def output(self):
-        if self.__status:
-            self.status_text.setText('On')
-            if self.__muted:
-                self.mute_text.setText('Muted')
-                self.volume_text.setText('0')
-            else:
-                self.volume_text.setText(self.__volume)
-                self.mute_text.setText('Not Muted')
-            self.channel_text.setText(self.__channel)
-        else:
-            self.status_text.setText('Off')
-            self.volume_text.setText('')
-            self.mute_text.setText('')
-            self.channel_text.setText('')
+
 
 
 
