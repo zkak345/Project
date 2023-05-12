@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.labal_TV_Remote = QtWidgets.QLabel(parent=self.centralwidget)
-        self.labal_TV_Remote.setGeometry(QtCore.QRect(250, 20, 111, 51))
+        self.labal_TV_Remote.setGeometry(QtCore.QRect(250, 20, 130, 51))
         font = QtGui.QFont()
         font.setPointSize(15)
         self.labal_TV_Remote.setFont(font)

@@ -3,6 +3,8 @@ from view import *
 
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+
+
 class Controller(QMainWindow, Ui_MainWindow):
     MIN_VOLUME = 0
     MAX_VOLUME = 100
